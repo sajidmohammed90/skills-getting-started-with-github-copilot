@@ -20,37 +20,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const spotsLeft = details.max_participants - details.participants.length;
 
-        // Build participants list HTML with delete icon and no bullets
-        let participantsHTML = "";
-        if (details.participants.length > 0) {
-          participantsHTML = `
-            <div class="participants-section">
-              <strong>Participants:</strong>
-              <div class="participants-list">
-                ${details.participants.map(email => `
-                  <span class="participant-item">
-                    <span class="participant-email">${email}</span>
-                    <span class="delete-icon" title="Remove" data-activity="${name}" data-email="${email}">&#128465;</span>
-                  </span>
-                `).join("")}
-              </div>
-            </div>
-          `;
-        } else {
-          participantsHTML = `
-            <div class="participants-section empty">
-              <strong>Participants:</strong>
-              <p class="no-participants">No one has signed up yet!</p>
-            </div>
-          `;
-        }
+        // Participants list HTML
+        const participantsHTML = details.participants.length
+          ? `<ul class="participants-list">
+                ${details.participants.map(email => `<li>${email}</li>`).join("")}
+             </ul>`
+          : `<p class="no-participants">No participants yet.</p>`;
 
         activityCard.innerHTML = `
           <h4>${name}</h4>
           <p>${details.description}</p>
           <p><strong>Schedule:</strong> ${details.schedule}</p>
           <p><strong>Availability:</strong> ${spotsLeft} spots left</p>
-          ${participantsHTML}
+          <div class="participants-section">
+            <strong>Participants:</strong>
+            ${participantsHTML}
+          </div>
         `;
 
         activitiesList.appendChild(activityCard);
